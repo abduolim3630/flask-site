@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuqta</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        input {
+            padding: 8px;
+            margin-bottom: 10px;
+            width: 20%;
+            box-sizing: border-box;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            width: 50%;
+        }
+
+        .find-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 12px;
+            margin-right: 10%;
+        }
+
+        .clear-button {
+            background-color: #fc0000;
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 12px;
+        }
+
+        .find-button:hover {
+            background-color: #45a049;
+        }
+
+        .clear-button:hover {
+            background-color: #ff0000;
+        }
+
+        #result {
+            margin-top: 20px;
+            color: #333;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+
+        #error-message {
+            background-color: #ffcccc;
+            color: #cc0000;
+            padding: 3px 6px;
+            border: 1px solid #cc0000;
+            border-radius: 5px;
+            margin-bottom: 8px;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+         table {
+            margin: 0 auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .table-label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .table-value {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>w=(az+b)/(cz+d)</h1>
+    <form method="post" id="complexForm" onsubmit="return validateForm()">
+        <label for="a">Enter a:</label>
+        <input type="text" id="a" name="a" placeholder="2+1i" required>
+        <label for="b">Enter b:</label>
+        <input type="text" id="b" name="b" placeholder="3i" required>
+        <label for="c">Enter c:</label>
+        <input type="text" id="c" name="c" placeholder="1+i" required>
+        <label for="d">Enter d:</label>
+        <input type="text" id="d" name="d" placeholder="4" required>
+        <label for="z">Enter z:</label>
+        <input type="text" id="z" name="z" placeholder="1-i" required>
+
+        <div class="button-container">
+            <button class="find-button" type="submit">Transform</button>
+            <button class="clear-button" type="button" onclick="clearForm()">Clear</button>
+        </div>
+    </form>
+
+    {% if error %}
+        <div id="error-message">
+            <p>{{ error }}</p>
+        </div>
+    {% endif %}
+
+    {% if plot %}
+        <div id="result">
+            <h2>Result:</h2>
+               <table>
+                <tr>
+                    <td class="table-value"> a </td>
+                    <td class="table-value"> b </td>
+                    <td class="table-value"> c </td>
+                    <td class="table-value"> d </td>
+                    <td class="table-value" style="color:blue" > z </td>
+                </tr>
+                     <tr>
+                    <td class="table-value">{{ a }}</td>
+                    <td class="table-value">{{ b }}</td>
+                    <td class="table-value">{{ c }}</td>
+                    <td class="table-value">{{ d }}</td>
+                    <td class="table-value" style="color:blue">{{ z }}</td>
+                </tr>
+            </table>
+
+            <h2 style="color: red;">w = {{ w }}</h2>
+            <img src="data:image/png;base64,{{ plot }}" alt="Transformation Plot">
+        </div>
+    {% endif %}
+
+    <script>
+        function clearForm() {
+            document.getElementById("complexForm").reset();
+            document.getElementById("result").style.display = "none";
+            const errorMessage = document.getElementById("error-message");
+            if (errorMessage) {
+                errorMessage.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
